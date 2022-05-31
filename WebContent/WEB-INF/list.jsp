@@ -49,7 +49,7 @@
 				<td><%=guestList.get(i).getNo() %></td>
 				<td><%=guestList.get(i).getName() %></td>
 				<td><%=guestList.get(i).getRegDate() %></td>
-				<td><a href="./deleteForm.jsp?no=<%=guestList.get(i).getNo() %>">삭제</a></td>
+				<td><a href="./gbc?action=deleteForm&no=<%=guestList.get(i).getNo() %>">삭제</a></td>
 			</tr>
 			<tr>
 				<td colspan="4">

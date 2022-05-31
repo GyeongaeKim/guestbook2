@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.javaex.dao.GuestbookDao;
+import com.javaex.util.WebUtil;
 import com.javaex.vo.GuestbookVo;
 
 @WebServlet("/gbc")
@@ -29,6 +30,8 @@ public class GuestbookController extends HttpServlet {
 		String action = request.getParameter("action");
 		System.out.println(action);
 		
+		WebUtil webUtil = new WebUtil();
+		
 		if("list".equals(action)) { //리스트
 			//데이터 가져오기
 			GuestbookDao guestDao = new GuestbookDao();
@@ -39,9 +42,12 @@ public class GuestbookController extends HttpServlet {
 			request.setAttribute("gList", guestList);
 			
 			//데이터 + html
+			webUtil.forward(request, response, "/WEB-INF/list.jsp");
+			
+			/*
 			RequestDispatcher rd = request.getRequestDispatcher("/list.jsp");
 			rd.forward(request, response);
-			
+			*/
 		}else if("insert".equals(action)){ //등록
 			String name = request.getParameter("name");
 			String password = request.getParameter("password");
@@ -51,14 +57,21 @@ public class GuestbookController extends HttpServlet {
 			GuestbookVo guestVo = new GuestbookVo(name, password, content);
 			int count = guestDao.insert(guestVo);
 			
-			response.sendRedirect("/guestbook2/gbc?action=list");
+			
+			webUtil.redirect(request, response, "/guestbook2/gbc?action=list");
+			
+			//response.sendRedirect("/guestbook2/gbc?action=list");
 			
 		}else if("deleteForm".equals(action)) { //삭제폼
 			//System.out.println("삭제폼");
 			
 			//deleteForm 포워드하기
+			webUtil.forward(request, response, "/WEB-INF/deleteForm.jsp");
+			
+			/*
 			RequestDispatcher rd = request.getRequestDispatcher("/deleteForm.jsp");
 			rd.forward(request, response);
+			*/
 		}else if("delete".equals(action)){ //삭제
 			//System.out.println("삭제");
 			
@@ -74,7 +87,9 @@ public class GuestbookController extends HttpServlet {
 			dao.delete(vo);
 			
 			//리다이렉트 list
-			response.sendRedirect("/guestbook2/gbc?action=list");
+			webUtil.redirect(request, response, "/guestbook2/gbc?action=list");
+			
+			//response.sendRedirect("/guestbook2/gbc?action=list");
 			
 		}else {
 			System.out.println("action 파라미터 없음");
