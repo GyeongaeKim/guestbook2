@@ -3,7 +3,6 @@ package com.javaex.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,8 +29,6 @@ public class GuestbookController extends HttpServlet {
 		String action = request.getParameter("action");
 		System.out.println(action);
 		
-		WebUtil webUtil = new WebUtil();
-		
 		if("list".equals(action)) { //리스트
 			//데이터 가져오기
 			GuestbookDao guestDao = new GuestbookDao();
@@ -42,7 +39,7 @@ public class GuestbookController extends HttpServlet {
 			request.setAttribute("gList", guestList);
 			
 			//데이터 + html
-			webUtil.forward(request, response, "/WEB-INF/list.jsp");
+			WebUtil.forward(request, response, "/WEB-INF/list.jsp");
 			
 			/*
 			RequestDispatcher rd = request.getRequestDispatcher("/list.jsp");
@@ -58,7 +55,7 @@ public class GuestbookController extends HttpServlet {
 			int count = guestDao.insert(guestVo);
 			
 			
-			webUtil.redirect(request, response, "/guestbook2/gbc?action=list");
+			WebUtil.redirect(request, response, "/guestbook2/gbc?action=list");
 			
 			//response.sendRedirect("/guestbook2/gbc?action=list");
 			
@@ -66,7 +63,7 @@ public class GuestbookController extends HttpServlet {
 			//System.out.println("삭제폼");
 			
 			//deleteForm 포워드하기
-			webUtil.forward(request, response, "/WEB-INF/deleteForm.jsp");
+			WebUtil.forward(request, response, "/WEB-INF/deleteForm.jsp");
 			
 			/*
 			RequestDispatcher rd = request.getRequestDispatcher("/deleteForm.jsp");
@@ -87,7 +84,7 @@ public class GuestbookController extends HttpServlet {
 			dao.delete(vo);
 			
 			//리다이렉트 list
-			webUtil.redirect(request, response, "/guestbook2/gbc?action=list");
+			WebUtil.redirect(request, response, "/guestbook2/gbc?action=list");
 			
 			//response.sendRedirect("/guestbook2/gbc?action=list");
 			
